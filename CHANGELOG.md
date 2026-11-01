@@ -2,6 +2,8 @@
 
 ## 0.1.5 — 2026-11-01
 
+- Save and validate desktop shortcuts through Unicode Windows Shell interfaces, including Chinese names on non-Chinese Windows installations. Verified on GitHub Windows Server CI.
+
 - Prefer the desktop preload message bridge for allowlisted account/quota requests, with isolated request IDs and timeouts, instead of depending on a discoverable React client object. Retain the legacy client as a compatibility fallback when the bridge is absent.
 - Permit bridge-based mounting without the private React root global. Detect capabilities rather than matching application version numbers.
 - Replace the misleading version-incompatibility message with the actual missing-interface or synchronization condition.

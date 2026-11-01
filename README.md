@@ -114,7 +114,7 @@ node scripts/verify-official.mjs '实际的官方 codex.exe 路径'
 
 将本目录作为仓库根目录上传，保留以点开头的 `.github`、`.agents`、`.codex-plugin` 和 `.mcp.json`。不要上传 `runtime/`、`dist/`、`test-results/` 或自己的状态目录。
 
-仓库已附 GitHub Actions：推送 main/master 或 PR 时运行检查；推送与 `package.json` 相符的版本 tag（例如 `v0.1.5`）后，检查通过会生成带运行时的 ZIP 和 SHA-256，并发布到 GitHub Releases。工作流尚需在自己的 GitHub 仓库中实际运行验证。
+仓库已附 GitHub Actions：推送 main/master 或 PR 时运行检查；推送与 `package.json` 相符的版本 tag（例如 `v0.1.5`）后，检查通过会生成带运行时的 ZIP 和 SHA-256，并发布到 GitHub Releases。首次 Windows 云端检查已全部通过，包括安装、卸载、浏览器和完整安装包构建。
 
 如仅想先分享现有构建，也可以在 GitHub Releases 手动上传本次 Windows ZIP 与 `.sha256` 文件。
 

@@ -37,7 +37,7 @@ Remaining validation:
 - Completed: updated the existing installed extension to 0.1.5, restarted only its owned monitoring task, reused the existing desktop debugging port without restarting Codex, and observed a mounted navigation-rail widget with reason `ok`, both quota windows and reset-card count present in the production profile. Rechecked ongoing refresh separately. No account identifiers were logged.
 
 - Automatic handoff from every possible already-running ordinary desktop instance remains unproven; no user desktop was force-closed.
-- GitHub Actions execution after uploading the repository.
+- Completed: all Windows checks and runtime-inclusive packaging passed in [GitHub Actions](https://github.com/ITLOSERZzz/codex-quota-rings/actions/runs/41264504341). The first cloud run exposed WScript shortcut saving under a non-Chinese locale; Unicode Shell interfaces fixed it and the full next run passed.
 - Windows 10 and other desktop versions/locales beyond the currently checked resources and synthetic scenarios.
 
 This is a preview release. Passing browser fixtures and protocol checks does not prove compatibility with every future Codex UI build.

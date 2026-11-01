@@ -78,6 +78,6 @@ Build the runtime-inclusive release using **Node.js v24.16.0 win-x64**:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/build-release.ps1
 ```
 
-Upload this directory as the repository root, including hidden plugin/marketplace/workflow files. Do not commit runtime binaries, build artifacts or state. The included workflow checks pushes and PRs and builds a GitHub Release on a version tag matching `package.json`. Its first run in the published repository remains to be validated. You can also manually upload the ZIP and SHA-256 file to Releases.
+Upload this directory as the repository root, including hidden plugin/marketplace/workflow files. Do not commit runtime binaries, build artifacts or state. The included workflow checks pushes and PRs and builds a GitHub Release on a version tag matching `package.json`. The published repository's Windows checks, installer/uninstaller, browser integration and runtime-inclusive build have passed. You can also manually upload the ZIP and SHA-256 file to Releases.
 
 See [SECURITY.md](SECURITY.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md), and [the official protocol](https://learn.chatgpt.com/docs/app-server).
