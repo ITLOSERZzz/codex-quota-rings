@@ -21,6 +21,54 @@ function Resolve-QuotaNode([string]$Root = $script:PackageRoot) {
     if ($command) { return $command.Source }
     throw '没有找到运行时。请下载 GitHub Release 中包含 runtime 的 Windows 完整包。'
 }
+function Initialize-QuotaUnicodeShortcut {
+    if ('QuotaUnicodeShortcut' -as [type]) { return }
+    Add-Type -TypeDefinition @'
+using System;
+using System.Text;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
+[ComImport, Guid("00021401-0000-0000-C000-000000000046")] class QuotaShellLink {}
+[ComImport, Guid("000214F9-0000-0000-C000-000000000046"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+interface IQuotaShellLinkW {
+ void GetPath([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder p, int n, IntPtr data, uint flags);
+ void GetIDList(out IntPtr p); void SetIDList(IntPtr p);
+ void GetDescription([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder p, int n);
+ void SetDescription([MarshalAs(UnmanagedType.LPWStr)] string s);
+ void GetWorkingDirectory([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder p, int n);
+ void SetWorkingDirectory([MarshalAs(UnmanagedType.LPWStr)] string s);
+ void GetArguments([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder p, int n);
+ void SetArguments([MarshalAs(UnmanagedType.LPWStr)] string s);
+ void GetHotkey(out short h); void SetHotkey(short h);
+ void GetShowCmd(out int c); void SetShowCmd(int c);
+ void GetIconLocation([Out, MarshalAs(UnmanagedType.LPWStr)] StringBuilder p, int n, out int i);
+ void SetIconLocation([MarshalAs(UnmanagedType.LPWStr)] string s, int i);
+ void SetRelativePath([MarshalAs(UnmanagedType.LPWStr)] string s, uint r);
+ void Resolve(IntPtr w, uint f); void SetPath([MarshalAs(UnmanagedType.LPWStr)] string s);
+}
+public static class QuotaUnicodeShortcut {
+ public static void Save(string file, string target, string args, string directory, string description, string icon) {
+  object value = new QuotaShellLink();
+  try { var link = (IQuotaShellLinkW)value; link.SetPath(target); link.SetArguments(args); link.SetWorkingDirectory(directory);
+   link.SetDescription(description); link.SetIconLocation(icon, 0); ((IPersistFile)value).Save(file, true);
+  } finally { Marshal.FinalReleaseComObject(value); }
+ }
+ public static string[] Read(string file) {
+  object value = new QuotaShellLink();
+  try { ((IPersistFile)value).Load(file, 0); var link = (IQuotaShellLinkW)value;
+   var target = new StringBuilder(32768); var args = new StringBuilder(32768);
+   link.GetPath(target, target.Capacity, IntPtr.Zero, 0); link.GetArguments(args, args.Capacity);
+   return new [] { target.ToString(), args.ToString() };
+  } finally { Marshal.FinalReleaseComObject(value); }
+ }
+}
+'@
+}
+function Read-QuotaShortcut([string]$Path) {
+    Initialize-QuotaUnicodeShortcut
+    $values = [QuotaUnicodeShortcut]::Read($Path)
+    return [pscustomobject]@{ TargetPath=$values[0]; Arguments=$values[1] }
+}
 function Test-QuotaShortcut($Shortcut, [string]$Root) {
     $expectedTarget = Join-Path $env:WINDIR 'System32\wscript.exe'
     $expectedScript = Join-Path $Root 'scripts\launch.vbs'

@@ -67,17 +67,11 @@ try {
     }
     $shortcutPath = Join-Path $DesktopDirectory 'Codex 额度.lnk'
     if (Test-Path -LiteralPath $shortcutPath) {
-        $existing = (New-Object -ComObject WScript.Shell).CreateShortcut($shortcutPath)
+        $existing = Read-QuotaShortcut $shortcutPath
         if (-not (Test-QuotaShortcut $existing $InstallRoot)) { throw '同名桌面快捷方式已被其他程序使用，请先改名。' }
     }
-    $shell = New-Object -ComObject WScript.Shell
-    $shortcut = $shell.CreateShortcut($shortcutPath)
-    $shortcut.TargetPath = Join-Path $env:WINDIR 'System32\wscript.exe'
-    $shortcut.Arguments = '"' + (Join-Path $InstallRoot 'scripts\launch.vbs') + '"'
-    $shortcut.WorkingDirectory = $InstallRoot
-    $shortcut.Description = '启动带双环额度显示的 Codex'
-    $shortcut.IconLocation = $info.Path + ',0'
-    $shortcut.Save()
+    Initialize-QuotaUnicodeShortcut
+    [QuotaUnicodeShortcut]::Save($shortcutPath, (Join-Path $env:WINDIR 'System32\wscript.exe'), ('"' + (Join-Path $InstallRoot 'scripts\launch.vbs') + '"'), $InstallRoot, '启动带双环额度显示的 Codex', $info.Path)
     $taskName = $null
     if (-not $SkipTaskRegistration) {
         . (Join-Path $InstallRoot 'scripts\task-runner.ps1')

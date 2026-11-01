@@ -28,7 +28,7 @@ try {
         Remove-QuotaLaunchTask $root
     }
     if (Test-Path -LiteralPath $manifest.shortcut) {
-        $link = (New-Object -ComObject WScript.Shell).CreateShortcut($manifest.shortcut)
+        $link = Read-QuotaShortcut $manifest.shortcut
         if (Test-QuotaShortcut $link $root) { Remove-Item -LiteralPath $manifest.shortcut -Force }
     }
     foreach ($target in $targets) {
