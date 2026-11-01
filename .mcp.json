@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "quota-rings": {
+      "command": "powershell.exe",
+      "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "./scripts/mcp-server.ps1"],
+      "cwd": "."
+    }
+  }
+}

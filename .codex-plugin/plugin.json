@@ -1,0 +1,19 @@
+{
+  "name": "quota-rings",
+  "version": "0.1.5",
+  "description": "Windows native sidebar quota rings and read-only Codex quota tools.",
+  "author": { "name": "Codex Quota Rings contributors" },
+  "license": "MIT",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Codex 额度 · Quota Rings",
+    "shortDescription": "5小时与每周剩余额度、重置卡，一眼可见",
+    "longDescription": "Windows 桌面双环额度扩展。标准插件提供只读状态工具；常驻双环需要配套本机挂载程序，通过专用快捷方式启动 Codex。",
+    "developerName": "Codex Quota Rings contributors",
+    "category": "Developer Tools",
+    "capabilities": ["Read"],
+    "logo": "./assets/icon.svg",
+    "composerIcon": "./assets/icon.svg",
+    "defaultPrompt": ["查看 Codex 双环额度状态", "如何安装左侧双环？"]
+  }
+}
