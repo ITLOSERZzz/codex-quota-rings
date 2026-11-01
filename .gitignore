@@ -1,0 +1,9 @@
+runtime/
+dist/
+node_modules/
+*.log
+*.zip
+*.tmp
+test-results/
+.DS_Store
+Thumbs.db
